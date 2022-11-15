@@ -28,11 +28,11 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params }: any) {
   console.log(params);
-  const rawPost = getPostByName(params.id).buffer.toLocaleString()
-  const post = marked.parse(rawPost)
-  return { props: { mdName: params.id, mdContent: post, mdRaw: rawPost } }
+  const rawPost = getPostByName(params.id)  
+  const post = marked.parse(rawPost.content)
+  return { props: { mdName: params.id, mdContent: post, mdRaw: rawPost.content } }
 }
-export default function PostsById({ mdContent, mdRaw }: any) {
+export default function PostsById({ mdContent,mdRaw }: any) {
   return (
     <div className='w-full mx-auto my-12 flex justify-center'>
       <div>
@@ -43,6 +43,7 @@ export default function PostsById({ mdContent, mdRaw }: any) {
         <MarkNav
           className={`${PostStyle["article-nav"]} article-menu sticky top-[88px]`}
           source={mdRaw}
+          declarative={true}
           headingTopOffset={80}
         />
       </div>
